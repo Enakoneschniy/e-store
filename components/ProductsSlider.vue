@@ -12,7 +12,6 @@
         </div>
       </div>
       <template slot="prev"><span class="prev"></span></template>
-
       <template slot="next"><span class="next"></span></template>
     </carousel>
   </no-ssr>

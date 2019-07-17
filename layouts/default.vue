@@ -2,15 +2,23 @@
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-container>
-        <b-navbar-brand href="#">E-Store</b-navbar-brand>
+        <b-navbar-brand>
+          <nuxt-link :to="{name: 'home'}">E-Store</nuxt-link>
+        </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#">Catalog</b-nav-item>
-            <b-nav-item href="#">Contacts</b-nav-item>
-            <b-nav-item href="#">Privacy & Policy</b-nav-item>
+            <li class="nav-item">
+              <nuxt-link class="nav-link" :to="{name: 'catalog'}">Catalog</nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link class="nav-link" :to="{name: 'catalog'}">Contacts</nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link class="nav-link" :to="{name: 'catalog'}">Privacy & Policy</nuxt-link>
+            </li>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
