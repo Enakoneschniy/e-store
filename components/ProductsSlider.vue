@@ -7,7 +7,7 @@
           <h4 class="mb-3">{{product.title}}</h4>
           <div class="d-flex justify-content-between align-items-center">
             <strong>{{product.price}} ₴</strong>
-            <b-button variant="warning">Купить</b-button>
+            <b-button variant="warning" @click="onAddToCart({ quantity: 1, product})">Купить</b-button>
           </div>
         </div>
       </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
 
   export default {
     name: "ProductsSlider",
@@ -26,7 +27,10 @@
         type: Array,
         required: true
       }
-    }
+    },
+    methods: mapActions({
+      onAddToCart: 'Cart/addToCart'
+    })
   }
 </script>
 

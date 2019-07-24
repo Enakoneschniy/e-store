@@ -4,9 +4,7 @@
     <hr>
     <b-row>
       <b-col sm="3">
-        <div class="filters">
-          <CatalogFilter/>
-        </div>
+        <CatalogFilter/>
       </b-col>
       <b-col sm="9" class="product-list">
         <div class="d-flex flex-wrap">
@@ -34,10 +32,17 @@
 
 <script>
   import CatalogFilter from "../components/CatalogFilter";
+  import { mapActions } from 'vuex'
 
   export default {
     name: "catalog",
     components: { CatalogFilter },
+    created() {
+      this.loadProducts();
+    },
+    methods: mapActions({
+      loadProducts: 'Catalog/loadProducts'
+    }),
     async asyncData({ $axios }) {
       let products = [];
       try {
@@ -53,10 +58,6 @@
 </script>
 
 <style scoped>
-  .filters {
-    border-right: 1px solid lightgray;
-    padding-right: 10px;
-  }
 
   .product {
     width: 30%;

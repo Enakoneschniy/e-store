@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
       <b-container>
         <b-navbar-brand>
           <nuxt-link :to="{name: 'home'}">E-Store</nuxt-link>
@@ -27,6 +27,11 @@
               <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
               <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
             </b-nav-form>
+            <b-navbar-nav>
+              <li class="nav-item">
+                <nuxt-link class="nav-link" to="/">Cart({{totalCartCount}})</nuxt-link>
+              </li>
+            </b-navbar-nav>
 
             <b-nav-item-dropdown text="Lang" right>
               <b-dropdown-item href="#">EN</b-dropdown-item>
@@ -49,4 +54,13 @@
   </div>
 </template>
 
+<script>
+  import { mapGetters } from 'vuex'
 
+  export default {
+    name: 'default',
+    computed: mapGetters({
+      totalCartCount: 'Cart/getCartCount'
+    })
+  }
+</script>

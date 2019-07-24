@@ -12,12 +12,12 @@
     </TestSlotComponent>-->
     <b-container>
       <section class="mb-5">
-        <h1 class="mb-3">Рекомендуемые товары</h1>
-        <ProductsSlider :products="products"/>
+        <h1 class="mb-3">Рекомендуемые товары ({{recommendedProducts.length}})</h1>
+        <ProductsSlider v-if="recommendedProducts.length > 0" :products="recommendedProducts"/>
       </section>
       <section class="mb-5">
-        <h1 class="mb-3">Новинки</h1>
-        <ProductsSlider :products="products"/>
+        <h1 class="mb-3">Новинки({{newProducts.length}})</h1>
+        <ProductsSlider v-if="newProducts.length > 0" :products="newProducts"/>
       </section>
     </b-container>
 
@@ -30,53 +30,21 @@
 
   import HomeCarousel from "../components/HomeCarousel";
   import ProductsSlider from "../components/ProductsSlider";
-  import TestSlotComponent from "../components/TestSlotComponent";
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     name: 'HomePage',
-    components: { TestSlotComponent, ProductsSlider, HomeCarousel },
-    data() {
-      return {
-        products: [
-          {
-            id: 1,
-            title: 'Some product 1',
-            price: 400,
-            image: 'https://picsum.photos/200/200/?image=41'
-          },
-          {
-            id: 2,
-            title: 'Some product 2',
-            price: 400,
-            image: 'https://picsum.photos/200/200/?image=42'
-          },
-          {
-            id: 3,
-            title: 'Some product 3',
-            price: 400,
-            image: 'https://picsum.photos/200/200/?image=43'
-          },
-          {
-            id: 4,
-            title: 'Some product 4',
-            price: 400,
-            image: 'https://picsum.photos/200/200/?image=44'
-          },
-          {
-            id: 5,
-            title: 'Some product 5',
-            price: 400,
-            image: 'https://picsum.photos/200/200/?image=45'
-          },
-          {
-            id: 6,
-            title: 'Some product 6',
-            price: 400,
-            image: 'https://picsum.photos/200/200/?image=46'
-          }
-        ]
-      }
-    }
+    components: { ProductsSlider, HomeCarousel },
+    created() {
+      this.loadProducts();
+    },
+    computed: mapGetters({
+      recommendedProducts: 'Catalog/getRecommendedProducts',
+      newProducts: 'Catalog/getNewProducts'
+    }),
+    methods: mapActions({
+      loadProducts: 'Catalog/loadProducts'
+    }),
   }
 </script>
 
