@@ -2,6 +2,8 @@
   <b-container>
     <h1 class="text-center pt-5">Catalog</h1>
     <hr>
+<!--    <b-input v-model="user.firstName"></b-input>
+    <b-input v-model="user.lastName"></b-input>-->
     <b-row>
       <b-col sm="3">
         <CatalogFilter/>
@@ -9,7 +11,7 @@
       <b-col sm="9" class="product-list">
         <div class="d-flex flex-wrap">
           <b-card
-            v-for="product of products"
+            v-for="product of catalog.products"
             :key="product.id"
             :title="product.title"
             :img-src="product.image"
@@ -24,7 +26,9 @@
             </div>
           </b-card>
         </div>
-
+        <div class="overflow-auto">
+          <b-pagination-nav v-if="+catalog.pages > 0" :link-gen="linkGen" :number-of-pages="+catalog.pages" use-router></b-pagination-nav>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -32,28 +36,62 @@
 
 <script>
   import CatalogFilter from "../components/CatalogFilter";
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     name: "catalog",
+    scrollToTop: true,
     components: { CatalogFilter },
+    data() {
+      return {
+        user: {
+          firstName: '',
+          lastName: ''
+        }
+      }
+    },
     created() {
       this.loadProducts();
+      setTimeout(() => {
+        this.$watch('user', {
+          handler(newVal, oldVal) {
+            console.log(newVal, oldVal)
+          },
+          deep: true
+        })
+      }, 5000);
     },
-    methods: mapActions({
-      loadProducts: 'Catalog/loadProducts'
+    computed: mapGetters({
+      catalog: 'Catalog/getProducts'
     }),
-    async asyncData({ $axios }) {
-      let products = [];
-      try {
-        products = await $axios.$get('/catalog.json');
-      } catch (e) {
-        console.warn(e)
+    watch: {
+      /*'user.firstName'(newVal, oldVal) {
+        console.log(newVal, oldVal)
+      },*/
+      /*user: {
+        handler(newVal, oldVal) {
+          console.log(newVal, oldVal)
+        },
+        deep: true
+      },*/
+      '$route' (to, from) {
+        this.setPage(to.query.page);
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        });
       }
-      return {
-        products
+    },
+    methods: {
+      ...mapActions({
+        loadProducts: 'Catalog/loadProducts',
+        setPage: 'Catalog/setPage'
+      }),
+      linkGen(pageNum) {
+        return pageNum === 1 ? '?' : `?page=${pageNum}`
       }
-    }
+    },
   }
 </script>
 

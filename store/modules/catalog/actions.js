@@ -1,12 +1,23 @@
-import {SET_PRODUCTS} from "./mutation-types";
+import { SET_PRODUCTS, SET_PAGE, SET_FILTERS } from "./mutation-types";
 
 export default {
   async loadProducts({ commit }) {
+    let products = [];
     try {
-      const products = await this.$axios.$get('/catalog.json');
-      commit(SET_PRODUCTS, products)
+      products = await this.$axios.$get('/catalog.json');
+
     } catch (e) {
-      console.warn('loadProducts', e)
+      if(e.response.status === 404) {
+        alert('File Not Found!')
+      }
+      console.warn('loadProducts', e.response)
     }
+    commit(SET_PRODUCTS, products)
+  },
+  setPage({ commit }, page) {
+    commit(SET_PAGE, page === undefined ? 1 : page)
+  },
+  setFilters({ commit }, filters) {
+    commit(SET_FILTERS, filters);
   }
 }
